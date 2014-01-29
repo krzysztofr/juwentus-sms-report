@@ -14,5 +14,6 @@ ZONES = {
 
 SMSAPI_LOGIN = ''
 SMSAPI_PASS = ''
+SMSAPI_FROM = 'Info' # registered from name
 
 PHONE_NO = ''
