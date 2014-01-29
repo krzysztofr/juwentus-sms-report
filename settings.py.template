@@ -2,6 +2,15 @@
 
 JUWENTUS_LOGIN = ''
 JUWENTUS_PASS = ''
+JUWENTUS_OBJECT_ID = ''
+
+# zones definition id -> name
+ZONES = {
+    1 : 'name',
+# ...
+}
+
+
 
 SMSAPI_LOGIN = ''
 SMSAPI_PASS = ''

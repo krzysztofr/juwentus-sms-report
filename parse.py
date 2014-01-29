@@ -22,7 +22,7 @@ buf = cStringIO.StringIO()
 
 
 # download log from last day
-c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=68081')
+c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % (settings.JUWENTUS_OBJECT_ID))
 c.setopt(c.WRITEFUNCTION, buf.write)
 c.perform()
 
@@ -34,16 +34,6 @@ buf.close()
 lt_file = open('lasttime.txt', 'r')
 last_time = datetime.datetime.strptime(lt_file.read().strip(), '%Y-%m-%d %H:%M:%S') 
 lt_file.close()
-
-
-# zones definition id -> name
-ZONES = {
-    1 : 'pietro okna',
-    3 : 'pietro czujki',
-    2 : 'parter okna',
-    4 : 'parter czujki',
-    5 : 'garaz'
-}
 
 
 soup = BeautifulSoup(result)
@@ -83,19 +73,19 @@ for tr in soup.find_all('tr'):
     if signal == u'ZAŁĄCZENIE':
         if message.get('zal') == None:
             message['zal'] = []
-        message['zal'].append(ZONES[zone_no])
+        message['zal'].append(settings.ZONES[zone_no])
     if signal == u'WYŁĄCZENIE':
         if message.get('wyl') == None:
             message['wyl'] = []
-        message['wyl'].append(ZONES[zone_no])
+        message['wyl'].append(settings.ZONES[zone_no])
     if signal == u'KOMUNIKAT':
         if message.get('kom') == None:
             message['kom'] = []
-        message['kom'].append(ZONES[zone_no])
+        message['kom'].append(settings.ZONES[zone_no])
     if signal == u'WŁAMANIE':
         if message.get('wlam') == None:
             message['wlam'] = []
-        message['wlam'].append(ZONES[zone_no])
+        message['wlam'].append(settings.ZONES[zone_no])
 
 message_text = ''
 
