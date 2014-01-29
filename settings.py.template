@@ -1,0 +1,9 @@
+# -*- coding: utf-8 -*-
+
+JUWENTUS_LOGIN = ''
+JUWENTUS_PASS = ''
+
+SMSAPI_LOGIN = ''
+SMSAPI_PASS = ''
+
+PHONE_NO = ''

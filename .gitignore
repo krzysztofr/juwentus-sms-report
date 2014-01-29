@@ -1,1 +1,5 @@
 .env
+lasttime.txt
+*.swp
+*.pyc
+settings.py

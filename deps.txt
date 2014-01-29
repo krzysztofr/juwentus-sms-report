@@ -1,0 +1,6 @@
+argparse==1.2.1
+beautifulsoup4==4.3.2
+iconv==1.0
+pycurl==7.19.3
+smsapi==1.0-beta
+wsgiref==0.1.2
