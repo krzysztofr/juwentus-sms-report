@@ -31,9 +31,12 @@ result = buf.getvalue()
 buf.close()
 
 # check last time log
-lt_file = open('lasttime.txt', 'r')
-last_time = datetime.datetime.strptime(lt_file.read().strip(), '%Y-%m-%d %H:%M:%S') 
-lt_file.close()
+try:
+    lt_file = open('lasttime.txt', 'r')
+    last_time = datetime.datetime.strptime(lt_file.read().strip(), '%Y-%m-%d %H:%M:%S') 
+    lt_file.close()
+except IOError:
+    last_time = datetime.datetime.now() - datetime.timedelta(days=1)
 
 
 soup = BeautifulSoup(result)
