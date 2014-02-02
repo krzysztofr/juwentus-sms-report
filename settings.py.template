@@ -14,6 +14,7 @@ ZONES = {
 
 SMSAPI_LOGIN = ''
 SMSAPI_PASS = ''
-SMSAPI_FROM = 'Info' # registered from name
+SMSAPI_PRO_FROM = 'Info' # registered from name for "Pro" messages
+SMSAPI_PRO = False # to use Pro or not?
 
 PHONE_NO = ''

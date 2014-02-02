@@ -118,7 +118,10 @@ if message_text != '':
         smsapi.service('sms').action('send')
         smsapi.set_content(message_text.encode('utf-8'))
         smsapi.set_to(settings.PHONE_NO)
-        smsapi.set_from(settings.SMSAPI_FROM)
+        if settings.SMSAPI_PRO == True:
+            smsapi.set_from(settings.SMSAPI_PRO_FROM)
+        else:
+            smsapi.set_eco(True)
         smsapi.execute()
     except ApiError, e:
         print 'ERROR: %s - %s' % (e.code, e.message)
