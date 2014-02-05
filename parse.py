@@ -119,12 +119,13 @@ if message_text != '':
         smsapi.set_username(settings.SMSAPI_LOGIN)
         smsapi.set_password(settings.SMSAPI_PASS)
         smsapi.service('sms').action('send')
-        smsapi.set_content(message_text.encode('utf-8'))
-        smsapi.set_to(settings.PHONE_NO)
         if settings.SMSAPI_PRO == True:
             smsapi.set_from(settings.SMSAPI_PRO_FROM)
         else:
             smsapi.set_eco(True)
-        smsapi.execute()
+        for phone in settings.PHONE_NUMBERS:
+            smsapi.set_content(message_text.encode('utf-8'))
+            smsapi.set_to(phone)
+            smsapi.execute()
     except ApiError, e:
         print 'ERROR: %s - %s' % (e.code, e.message)

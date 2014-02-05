@@ -17,4 +17,4 @@ SMSAPI_PASS = ''
 SMSAPI_PRO_FROM = 'Info' # registered from name for "Pro" messages
 SMSAPI_PRO = False # to use Pro or not?
 
-PHONE_NO = ''
+PHONE_NUMBERS = ('',) # tuple of strings
