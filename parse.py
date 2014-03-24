@@ -89,6 +89,8 @@ for tr in soup.find_all('tr'):
         if message.get('wlam') == None:
             message['wlam'] = []
         message['wlam'].append(settings.ZONES[zone_no])
+    if signal == u'NAPAD':
+        message['napad'] = True # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
 
 message_text = ''
 
@@ -108,6 +110,11 @@ if message.get('wlam') != None:
     if message_text != '':
         message_text += "\n"
     message_text += "WLAMANIE: " + ', '.join(message['wlam'])
+if message.get('napad') != None:
+    if message_text != '':
+        message_text += "\n"
+    message_text += "NAPAD!"
+
 
 #print message_text
 
