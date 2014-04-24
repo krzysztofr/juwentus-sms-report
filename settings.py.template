@@ -17,4 +17,6 @@ SMSAPI_PASS = ''
 SMSAPI_PRO_FROM = 'Info' # registered from name for "Pro" messages
 SMSAPI_PRO = False # to use Pro or not?
 
+DEBUG = False # switch to True for debugging purposes. SMS won't be sent and the message will be printed.
+
 PHONE_NUMBERS = ('',) # tuple of strings
