@@ -29,7 +29,7 @@ buf = cStringIO.StringIO()
 
 
 # download log from last day
-c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % (settings.JUWENTUS_OBJECT_ID))
+c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % settings.JUWENTUS_OBJECT_ID)
 c.setopt(c.WRITEFUNCTION, buf.write)
 c.perform()
 
