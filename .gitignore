@@ -4,3 +4,4 @@ lasttime.txt
 *.pyc
 settings.py
 example.html
+.idea
