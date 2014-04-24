@@ -56,79 +56,72 @@ first = True
 for tr in soup.find_all('tr'):
     items = tr.find_all('td')
     # skip first row
-    if items[0].string == 'Data': continue
+    if items[0].string == 'Data':
+        continue
  
     time = items[0].string + ' ' + items[1].string
     signal = items[2].string
     desc = items[3].string
-    if items[5].string == None: continue # "Linia 0" - empty zone_no
+    if items[5].string is None:
+        continue  # "Linia 0" - empty zone_no
     zone_no = int(items[5].string)
     zone_desc = unicode(items[6].string)
 
-
-
     time_diff = (datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S') - last_time)
 
-
-    if (time_diff <= datetime.timedelta(seconds=0)):
+    if time_diff <= datetime.timedelta(seconds=0):
         # cut here
         break
-    if first == True:
+    if first:
         lt_file = open('lasttime.txt', 'w')
         lt_file.write(time)
         lt_file.close()
         first = False
- 
 
     if signal == u'ZAŁĄCZENIE':
-        if message.get('zal') == None:
+        if message.get('zal') is None:
             message['zal'] = []
         message['zal'].append(settings.ZONES[zone_no])
     if signal == u'WYŁĄCZENIE':
-        if message.get('wyl') == None:
+        if message.get('wyl') is None:
             message['wyl'] = []
         message['wyl'].append(settings.ZONES[zone_no])
     if signal == u'KOMUNIKAT':
-        if message.get('kom') == None:
+        if message.get('kom') is None:
             message['kom'] = []
         message['kom'].append(settings.ZONES[zone_no])
     if signal == u'WŁAMANIE':
-        if message.get('wlam') == None:
+        if message.get('wlam') is None:
             message['wlam'] = []
         message['wlam'].append(settings.ZONES[zone_no])
     if signal == u'NAPAD':
-        message['napad'] = True # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
+        message['napad'] = True  # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
 
 message_text = ''
 
-if message.get('zal') != None:
+if message.get('zal') is not None:
     if message_text != '':
         message_text += "\n"
     message_text += "ZALACZONO: " + ', '.join(message['zal'])
-if message.get('wyl') != None:
+if message.get('wyl') is not None:
     if message_text != '':
         message_text += "\n" 
     message_text += "WYLACZONO: " + ', '.join(message['wyl'])
-if message.get('kom') != None:
+if message.get('kom') is not None:
     if message_text != '':
         message_text += "\n"
     message_text += "KOMUNIKAT: " + ', '.join(message['kom'])
-if message.get('wlam') != None:
+if message.get('wlam') is not None:
     if message_text != '':
         message_text += "\n"
     message_text += "WLAMANIE: " + ', '.join(message['wlam'])
-if message.get('napad') != None:
+if message.get('napad') is not None:
     if message_text != '':
         message_text += "\n"
     message_text += "NAPAD!"
 
-
-#print message_text
-
-# send sms
-
 if message_text != '':
-    if DEBUG == True:
+    if DEBUG:
         print message_text
     else:
         try:
@@ -136,7 +129,7 @@ if message_text != '':
             smsapi.set_username(settings.SMSAPI_LOGIN)
             smsapi.set_password(settings.SMSAPI_PASS)
             smsapi.service('sms').action('send')
-            if settings.SMSAPI_PRO == True:
+            if settings.SMSAPI_PRO:
                 smsapi.set_from(settings.SMSAPI_PRO_FROM)
             else:
                 smsapi.set_eco(True)
