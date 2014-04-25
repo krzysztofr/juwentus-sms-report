@@ -8,9 +8,7 @@ import cStringIO
 
 import settings
 
-last_time_filename = "lasttime.txt"
-
-def get_last_time():
+def get_last_time(last_time_filename="lasttime.txt"):
     """Gets the time when last event occured.
     """
 
@@ -50,9 +48,10 @@ def get_log():
     return result
 
 
-def parse(html, last_time):
+def parse(html, last_time, last_time_filename='lasttime.txt'):
     """Parses HTML code, returns message.
     """
+
 
     soup = BeautifulSoup(html)
 
