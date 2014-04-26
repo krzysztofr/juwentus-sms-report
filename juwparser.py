@@ -85,23 +85,23 @@ def parse(html, last_time, last_time_filename='lasttime.txt'):
             lt_file.close()
             first = False
 
-        if signal == u'ZAŁĄCZENIE':
+        if signal == u'ZAŁĄCZENIE' and 'zal' not in settings.IGNORE_ACTIONS:
             if message.get('zal') is None:
                 message['zal'] = []
             message['zal'].append(settings.ZONES[zone_no])
-        if signal == u'WYŁĄCZENIE':
+        if signal == u'WYŁĄCZENIE' and 'wyl' not in settings.IGNORE_ACTIONS:
             if message.get('wyl') is None:
                 message['wyl'] = []
             message['wyl'].append(settings.ZONES[zone_no])
-        if signal == u'KOMUNIKAT':
+        if signal == u'KOMUNIKAT' and 'kom' not in settings.IGNORE_ACTIONS:
             if message.get('kom') is None:
                 message['kom'] = []
             message['kom'].append(settings.ZONES[zone_no])
-        if signal == u'WŁAMANIE':
+        if signal == u'WŁAMANIE' and 'wlam' not in settings.IGNORE_ACTIONS:
             if message.get('wlam') is None:
                 message['wlam'] = []
             message['wlam'].append(settings.ZONES[zone_no])
-        if signal == u'NAPAD':
+        if signal == u'NAPAD' and 'napad' not in settings.IGNORE_ACTIONS:
             message['napad'] = True  # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
 
     message_text = ''

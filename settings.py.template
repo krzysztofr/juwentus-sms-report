@@ -10,7 +10,7 @@ ZONES = {
 # ...
 }
 
-
+IGNORE_ACTIONS = ('',) # tuple of strings; possible values: zal, wyl, kom, wlam, napad
 
 SMSAPI_LOGIN = ''
 SMSAPI_PASS = ''
