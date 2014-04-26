@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import datetime
 import pycurl
 import cStringIO
+import re
 
 import settings
 
@@ -73,6 +74,16 @@ def parse(html, last_time, last_time_filename='lasttime.txt'):
             continue  # "Linia 0" - empty zone_no
         zone_no = int(items[5].string)
         zone_desc = unicode(items[6].string)
+
+        try:
+            user_id = int(re.search('ytk\.(\d)+', desc).group(1))
+        except AttributeError:  # jezeli nie da sie ustalic uzytkownika
+            user_id = None
+
+        if user_id in settings.IGNORE_USERS:
+            continue
+
+        print desc.encode('utf-8')
 
         time_diff = (datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S') - last_time)
 
