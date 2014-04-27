@@ -1,23 +1,33 @@
 # -*- coding: utf-8 -*-
 
-JUWENTUS_LOGIN = ''
-JUWENTUS_PASS = ''
-JUWENTUS_OBJECT_ID = ''
+default = {
+    'JUWENTUS_LOGIN': '',
+    'JUWENTUS_PASS': '',
+    'JUWENTUS_OBJECT_ID': '',
 
-# zones definition id -> name
-ZONES = {
-    1 : 'name',
-# ...
+    # zones definition id -> name
+    'ZONES': {
+        1: 'name',
+        # ...
+    },
+
+    'IGNORE_ACTIONS': ('',),  # tuple of strings; possible values: zal, wyl, kom, wlam, napad
+    'IGNORE_USERS': (-1),  # ids of users to ignore
+
+    'SMSAPI_LOGIN': '',
+    'SMSAPI_PASS': '',
+    'SMSAPI_PRO_FROM': 'Alert', # registered from name for "Pro" messages
+    'SMSAPI_PRO': True, # to use Pro or not?
+
+    'DEBUG': True,
+
+
+    'PHONE_NUMBERS': ('',),  # tuple of strings
 }
 
-IGNORE_ACTIONS = ('',) # tuple of strings; possible values: zal, wyl, kom, wlam, napad
-IGNORE_USERS = (-1,) # ids of users to ignore
+# test1 = {...}
+# test2 = {...}
+# ...
 
-SMSAPI_LOGIN = ''
-SMSAPI_PASS = ''
-SMSAPI_PRO_FROM = 'Info' # registered from name for "Pro" messages
-SMSAPI_PRO = False # to use Pro or not?
+test = default  # tmp
 
-DEBUG = False # switch to True for debugging purposes. SMS won't be sent and the message will be printed.
-
-PHONE_NUMBERS = ('',) # tuple of strings

@@ -7,8 +7,6 @@ import pycurl
 import cStringIO
 import re
 
-import settings
-
 def get_last_time(last_time_filename="lasttime.txt"):
     """Gets the time when last event occured.
     """
@@ -24,7 +22,7 @@ def get_last_time(last_time_filename="lasttime.txt"):
     return last_time
 
 
-def get_log():
+def get_log(settings):
     """Gets log in HTML form from Juwentus website.
     """
     # log in
@@ -33,13 +31,13 @@ def get_log():
     c.setopt(c.POST, 1)
     c.setopt(c.URL, 'https://ochrona.juwentus.pl/index.php')
     c.setopt(c.USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36')
-    c.setopt(c.POSTFIELDS, 'logon=1&login=%s&haslo=%s' % (settings.JUWENTUS_LOGIN, settings.JUWENTUS_PASS))
+    c.setopt(c.POSTFIELDS, 'logon=1&login=%s&haslo=%s' % (settings['JUWENTUS_LOGIN'], settings['JUWENTUS_PASS']))
     c.perform()
 
     buf = cStringIO.StringIO()
 
     # download log from last day
-    c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % settings.JUWENTUS_OBJECT_ID)
+    c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % settings['JUWENTUS_OBJECT_ID'])
     c.setopt(c.WRITEFUNCTION, buf.write)
     c.perform()
 
@@ -49,7 +47,7 @@ def get_log():
     return result
 
 
-def parse(html, last_time, last_time_filename='lasttime.txt'):
+def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
     """Parses HTML code, returns message.
     """
 
@@ -80,10 +78,8 @@ def parse(html, last_time, last_time_filename='lasttime.txt'):
         except AttributeError:  # jezeli nie da sie ustalic uzytkownika
             user_id = None
 
-        if user_id in settings.IGNORE_USERS:
+        if user_id in settings['IGNORE_USERS']:
             continue
-
-        print desc.encode('utf-8')
 
         time_diff = (datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S') - last_time)
 
@@ -96,23 +92,23 @@ def parse(html, last_time, last_time_filename='lasttime.txt'):
             lt_file.close()
             first = False
 
-        if signal == u'ZAŁĄCZENIE' and 'zal' not in settings.IGNORE_ACTIONS:
+        if signal == u'ZAŁĄCZENIE' and 'zal' not in settings['IGNORE_ACTIONS']:
             if message.get('zal') is None:
                 message['zal'] = []
-            message['zal'].append(settings.ZONES[zone_no])
-        if signal == u'WYŁĄCZENIE' and 'wyl' not in settings.IGNORE_ACTIONS:
+            message['zal'].append(settings['ZONES'][zone_no])
+        if signal == u'WYŁĄCZENIE' and 'wyl' not in settings['IGNORE_ACTIONS']:
             if message.get('wyl') is None:
                 message['wyl'] = []
-            message['wyl'].append(settings.ZONES[zone_no])
-        if signal == u'KOMUNIKAT' and 'kom' not in settings.IGNORE_ACTIONS:
+            message['wyl'].append(settings['ZONES'][zone_no])
+        if signal == u'KOMUNIKAT' and 'kom' not in settings['IGNORE_ACTIONS']:
             if message.get('kom') is None:
                 message['kom'] = []
-            message['kom'].append(settings.ZONES[zone_no])
-        if signal == u'WŁAMANIE' and 'wlam' not in settings.IGNORE_ACTIONS:
+            message['kom'].append(settings['ZONES'][zone_no])
+        if signal == u'WŁAMANIE' and 'wlam' not in settings['IGNORE_ACTIONS']:
             if message.get('wlam') is None:
                 message['wlam'] = []
-            message['wlam'].append(settings.ZONES[zone_no])
-        if signal == u'NAPAD' and 'napad' not in settings.IGNORE_ACTIONS:
+            message['wlam'].append(settings['ZONES'][zone_no])
+        if signal == u'NAPAD' and 'napad' not in settings['IGNORE_ACTIONS']:
             message['napad'] = True  # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
 
     message_text = ''

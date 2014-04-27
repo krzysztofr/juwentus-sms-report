@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from juwparser import parse, get_log, get_last_time
+from juwparser import parse, get_last_time
+
+from settings import test as settings
 
 import unittest
 import os
@@ -28,6 +30,6 @@ class JuwparserTestCase(unittest.TestCase):
 
     def test_parse(self):
 
-        parsed = parse(self.testdata, datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), self.lt_filename)
+        parsed = parse(html=self.testdata, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings)
 
         self.assertEqual(parsed, "ZALACZONO: garaz, parter czujki, pietro okna, pietro czujki, parter okna", "Result other than expected.")
