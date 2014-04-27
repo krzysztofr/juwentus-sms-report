@@ -24,10 +24,3 @@ default = {
 
     'PHONE_NUMBERS': ('',),  # tuple of strings
 }
-
-# test1 = {...}
-# test2 = {...}
-# ...
-
-test = default  # tmp
-

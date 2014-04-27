@@ -2,16 +2,17 @@
 
 from juwparser import parse, get_last_time
 
-from settings import test as settings
+from test_settings import test_ignore_user3 as settings_ignore_user3, test_ignore_zal as settings_ignore_zal
 
 import unittest
 import os
 import datetime
 
+
 class JuwparserTestCase(unittest.TestCase):
 
     lt_filename = "lasttime_test.txt"
-    last_time = "2014-04-25 09:00:00"
+    last_time = "2014-04-24 00:00:00"
 
     def setUp(self):
         with open(self.lt_filename, 'w') as f:
@@ -28,8 +29,14 @@ class JuwparserTestCase(unittest.TestCase):
 
         self.assertEqual(last_time, datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), 'Last time value is different than expected.')
 
-    def test_parse(self):
+    def test_parse_ignore_user3(self):
 
-        parsed = parse(html=self.testdata, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings)
+        parsed = parse(html=self.testdata, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_user3)
 
-        self.assertEqual(parsed, "ZALACZONO: garaz, parter czujki, pietro okna, pietro czujki, parter okna", "Result other than expected.")
+        self.assertEqual(parsed, "ZALACZONO: garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, parter okna, pietro okna", "Result other than expected.")
+
+    def test_parse_ignore_zal(self):
+
+        parsed = parse(html=self.testdata, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_zal)
+
+        self.assertEqual(parsed, "WYLACZONO: garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, garaz, parter czujki, parter okna, pietro okna", "Result other than expected.")
