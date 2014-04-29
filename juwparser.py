@@ -72,6 +72,16 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
             continue  # "Linia 0" - empty zone_no
         zone_no = int(items[5].string)
         zone_desc = unicode(items[6].string)
+        try:
+            line_id = int(re.search('Linia (\d+)', desc).group(1))
+        except AttributeError:
+            line_id = None
+
+        if line_id is not None:
+            try:
+                line_name = settings['LINES'][line_id]
+            except KeyError:
+                line_name = str(line_id)
 
         try:
             user_id = int(re.search('ytk\.(\d)+', desc).group(1))
@@ -107,7 +117,7 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
         if signal == u'WŁAMANIE' and 'wlam' not in settings['IGNORE_ACTIONS']:
             if message.get('wlam') is None:
                 message['wlam'] = []
-            message['wlam'].append(settings['ZONES'][zone_no])
+            message['wlam'].append(settings['ZONES'][zone_no] + " (" + line_name + ")")
         if signal == u'NAPAD' and 'napad' not in settings['IGNORE_ACTIONS']:
             message['napad'] = True  # specjalny przypadek, tutaj tylko fakt napadu, bez strefy
 
