@@ -84,7 +84,7 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
                 line_name = str(line_id)
 
         try:
-            user_id = int(re.search('ytk\.(\d)+', desc).group(1))
+            user_id = int(re.search('ytk\.(\d+)', desc).group(1))
         except AttributeError:  # jezeli nie da sie ustalic uzytkownika
             user_id = None
 
