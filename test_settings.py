@@ -56,9 +56,15 @@ zones = {
     6: 'salon czujki'
 }
 
+users = {
+    3: 'Alice',
+    6: 'John'
+}
+
 test_default = {
     'ZONES': zones,
     'LINES': lines,
+    'USERS': users,
     'IGNORE_ACTIONS': (),
     'IGNORE_USERS': (),
 
@@ -67,6 +73,7 @@ test_default = {
 test_ignore_user3 = {
     'ZONES': zones,
     'LINES': lines,
+    'USERS': users,
     'IGNORE_ACTIONS': (),
     'IGNORE_USERS': (3,),
 
@@ -75,6 +82,7 @@ test_ignore_user3 = {
 test_ignore_zal = {
     'ZONES': zones,
     'LINES': lines,
+    'USERS': users,
     'IGNORE_ACTIONS': ('zal',),
     'IGNORE_USERS': (),
 
