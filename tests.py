@@ -36,13 +36,13 @@ class JuwparserTestCase(unittest.TestCase):
 
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_user3)
 
-        self.assertEqual(parsed, "ZALACZONO: garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, parter okna, pietro okna", "Result other than expected.")
+        self.assertEqual(parsed, "ZALACZONO (u6): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, parter okna, pietro okna", "Result other than expected.")
 
     def test_parse_ignore_zal(self):
 
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_zal)
 
-        self.assertEqual(parsed, "WYLACZONO: garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, garaz, parter czujki, parter okna, pietro okna", "Result other than expected.")
+        self.assertEqual(parsed, "WYLACZONO (u3): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, garaz, parter czujki, parter okna, pietro okna", "Result other than expected.")
 
     def test_wlamanie(self):
 

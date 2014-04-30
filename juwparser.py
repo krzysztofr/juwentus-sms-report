@@ -7,6 +7,7 @@ import pycurl
 import cStringIO
 import re
 
+
 def get_last_time(last_time_filename="lasttime.txt"):
     """Gets the time when last event occured.
     """
@@ -55,6 +56,8 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
     soup = BeautifulSoup(html)
 
     message = {}
+    users_zal = []
+    users_wyl = []
 
     first = True
 
@@ -91,6 +94,12 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
         if user_id in settings['IGNORE_USERS']:
             continue
 
+        if user_id is not None:
+            try:
+                user_name = settings['USERS'][user_id]
+            except KeyError:
+                user_name = 'u' + str(user_id)
+
         time_diff = (datetime.datetime.strptime(time, '%Y-%m-%d %H:%M:%S') - last_time)
 
         if time_diff <= datetime.timedelta(seconds=0):
@@ -106,10 +115,14 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
             if message.get('zal') is None:
                 message['zal'] = []
             message['zal'].append(settings['ZONES'][zone_no])
+            if user_name not in users_zal:
+                users_zal.append(user_name)
         if signal == u'WYŁĄCZENIE' and 'wyl' not in settings['IGNORE_ACTIONS']:
             if message.get('wyl') is None:
                 message['wyl'] = []
             message['wyl'].append(settings['ZONES'][zone_no])
+            if user_name not in users_wyl:
+                users_wyl.append(user_name)
         if signal == u'KOMUNIKAT' and 'kom' not in settings['IGNORE_ACTIONS']:
             if message.get('kom') is None:
                 message['kom'] = []
@@ -126,11 +139,11 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
     if message.get('zal') is not None:
         if message_text != '':
             message_text += "\n"
-        message_text += "ZALACZONO: " + ', '.join(message['zal'])
+        message_text += "ZALACZONO (" + ', '.join(users_zal) + "): " + ', '.join(message['zal'])
     if message.get('wyl') is not None:
         if message_text != '':
             message_text += "\n"
-        message_text += "WYLACZONO: " + ', '.join(message['wyl'])
+        message_text += "WYLACZONO (" + ', '.join(users_wyl) + "): " + ', '.join(message['wyl'])
     if message.get('kom') is not None:
         if message_text != '':
             message_text += "\n"

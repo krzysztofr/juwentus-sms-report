@@ -14,7 +14,13 @@ default = {
     'LINES': {
         1: 'kitchen window',
         # ...
-    }
+    },
+
+    # user ids from the Juwentus system
+    'USERS': {
+        1: 'John',
+        # ...
+    },
 
     'IGNORE_ACTIONS': ('',),  # tuple of strings; possible values: zal, wyl, kom, wlam, napad
     'IGNORE_USERS': (-1),  # ids of users to ignore
