@@ -10,7 +10,6 @@ from settings import default as settings
 
 from juwparser import parse
 
-filename = sys.argv[1]
 try:
     last_time = datetime.datetime.strptime(sys.argv[2], '%Y-%m-%d %H:%M:%S')
 except ValueError:
@@ -25,4 +24,6 @@ try:
     print parse(html=log, last_time=last_time, settings=settings)
 except IOError:
     print 'No such file: ' + sys.argv[1]
+except IndexError:
+    print 'No filename given.'
 
