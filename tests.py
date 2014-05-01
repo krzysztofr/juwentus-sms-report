@@ -33,38 +33,38 @@ class JuwparserTestCase(unittest.TestCase):
     def test_get_last_time(self):
         last_time = get_last_time(self.lt_filename)
 
-        self.assertEqual(last_time, datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), 'Last time value is different than expected.')
+        self.assertEqual(last_time, datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), 'Last time value is different than expected ' + self.last_time +'.')
 
     def test_parse_ignore_user3(self):
 
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_user3)
 
-        self.assertEqual(parsed, "ZALACZONO (John): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, parter okna, pietro okna", "Result other than expected.")
+        self.assertEqual(parsed, "ZALACZONO (John): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, parter okna, pietro okna", "User's 3 actions not ignored or wrong contents of the input file.")
 
     def test_parse_ignore_zal(self):
 
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_zal)
 
-        self.assertEqual(parsed, "WYLACZONO (Alice): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, garaz, parter czujki, parter okna, pietro okna", "Result other than expected.")
+        self.assertEqual(parsed, "WYLACZONO (Alice): garaz, parter czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, parter czujki, garaz, pietro czujki, parter okna, pietro okna, garaz, parter czujki, parter okna, pietro okna", "'zal' action not ignored or wrong contents of the input file.")
 
     def test_wlamanie(self):
 
         parsed = parse(html=self.testdata2, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_default)
 
-        self.assertIn("WLAMANIE: parter czujki", parsed, "Result other than expected.")
+        self.assertIn("WLAMANIE: parter czujki", parsed, "No WLAMANIE action reported or wrong contents of the input file.")
 
     def test_napad(self):
 
         parsed = parse(html=self.testdata2, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_default)
 
-        self.assertIn("NAPAD!", parsed, "Result other than expected.")
+        self.assertIn("NAPAD!", parsed, "No NAPAD action reported or wrong contents of the input file.")
 
     def test_user_names(self):
 
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_default)
 
-        self.assertIn("ZALACZONO (Alice, John)", parsed, "Result other than expected.")
-        self.assertIn("WYLACZONO (Alice)", parsed, "Result other than expected.")
+        self.assertIn("ZALACZONO (Alice, John)", parsed, "No user 3 and 6 ZALACZONO action present or wrong contents of the input file.")
+        self.assertIn("WYLACZONO (Alice)", parsed, "No user 3 ZALACZONO action present or wrong contents of the input file.")
 
     def test_garaz_in_zal(self):
 
