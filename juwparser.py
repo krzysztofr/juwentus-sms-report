@@ -111,7 +111,7 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
             lt_file.close()
             first = False
 
-        if signal == u'ZAŁĄCZENIE' and 'zal' not in settings['IGNORE_ACTIONS']:
+        if signal == u'ZAŁĄCZENIE' and 'zal' not in settings['IGNORE_ACTIONS'] and zone_no not in settings['IGNORE_ZAL_ZONES']:
             if message.get('zal') is None:
                 message['zal'] = []
             message['zal'].append(settings['ZONES'][zone_no])

@@ -67,7 +67,7 @@ test_default = {
     'USERS': users,
     'IGNORE_ACTIONS': (),
     'IGNORE_USERS': (),
-
+    'IGNORE_ZAL_ZONES': ()
 }
 
 test_ignore_user3 = {
@@ -76,7 +76,7 @@ test_ignore_user3 = {
     'USERS': users,
     'IGNORE_ACTIONS': (),
     'IGNORE_USERS': (3,),
-
+    'IGNORE_ZAL_ZONES': ()
 }
 
 test_ignore_zal = {
@@ -85,5 +85,14 @@ test_ignore_zal = {
     'USERS': users,
     'IGNORE_ACTIONS': ('zal',),
     'IGNORE_USERS': (),
+    'IGNORE_ZAL_ZONES': ()
+}
 
+test_ignore_zal_garaz = {
+    'ZONES': zones,
+    'LINES': lines,
+    'USERS': users,
+    'IGNORE_ACTIONS': ('wyl',),
+    'IGNORE_USERS': (),
+    'IGNORE_ZAL_ZONES': (5,)
 }

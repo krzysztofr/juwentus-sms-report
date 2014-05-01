@@ -5,6 +5,7 @@ from juwparser import parse, get_last_time
 from test_settings import test_ignore_user3 as settings_ignore_user3
 from test_settings import test_ignore_zal as settings_ignore_zal
 from test_settings import test_default as settings_default
+from test_settings import test_ignore_zal_garaz as settings_ignore_zal_garaz
 
 import unittest
 import os
@@ -64,3 +65,15 @@ class JuwparserTestCase(unittest.TestCase):
 
         self.assertIn("ZALACZONO (Alice, John)", parsed, "Result other than expected.")
         self.assertIn("WYLACZONO (Alice)", parsed, "Result other than expected.")
+
+    def test_garaz_in_zal(self):
+
+        parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_default)
+
+        self.assertIn("garaz", parsed, "Zone 'garaz' should be in the results.")
+
+    def test_ignore_garaz_in_zal(self):
+
+        parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_zal_garaz)
+
+        self.assertNotIn("garaz", parsed, "Zone 'garaz' in the results, where it shouldn't be.")

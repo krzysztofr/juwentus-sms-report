@@ -24,6 +24,7 @@ default = {
 
     'IGNORE_ACTIONS': ('',),  # tuple of strings; possible values: zal, wyl, kom, wlam, napad
     'IGNORE_USERS': (-1),  # ids of users to ignore
+    'IGNORE_ZAL_ZONES': (-1,)  # some zones are enabled with delay, but there is no need to send the sms about that
 
     'SMSAPI_LOGIN': '',
     'SMSAPI_PASS': '',
