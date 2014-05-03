@@ -1,5 +1,6 @@
 .env
 lasttime.txt
+cookies.txt
 *.swp
 *.pyc
 settings.py

@@ -6,6 +6,7 @@ import datetime
 import pycurl
 import cStringIO
 import re
+import os.path
 
 
 def get_last_time(last_time_filename="lasttime.txt"):
@@ -26,26 +27,46 @@ def get_last_time(last_time_filename="lasttime.txt"):
 def get_log(settings):
     """Gets log in HTML form from Juwentus website.
     """
-    # log in
+
+    cookiefile = 'cookies.txt'
+
+    def login():
+        c.setopt(c.POST, 1)
+        c.setopt(c.URL, 'https://ochrona.juwentus.pl/index.php')
+        c.setopt(c.USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36')
+        c.setopt(c.POSTFIELDS, 'logon=1&login=%s&haslo=%s' % (settings['JUWENTUS_LOGIN'], settings['JUWENTUS_PASS']))
+        c.perform()
+
+    def get_log():
+        # download log from last day
+        c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % settings['JUWENTUS_OBJECT_ID'])
+        c.setopt(c.WRITEFUNCTION, buf.write)
+        c.setopt(c.HEADERFUNCTION, headers_buf.write)
+        c.perform()
+
+        result = buf.getvalue(), headers_buf.getvalue()
+
+        return result
+
+
     c = pycurl.Curl()
-    c.setopt(c.COOKIEFILE, '')
-    c.setopt(c.POST, 1)
-    c.setopt(c.URL, 'https://ochrona.juwentus.pl/index.php')
-    c.setopt(c.USERAGENT, 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.76 Safari/537.36')
-    c.setopt(c.POSTFIELDS, 'logon=1&login=%s&haslo=%s' % (settings['JUWENTUS_LOGIN'], settings['JUWENTUS_PASS']))
-    c.perform()
-
+    c.setopt(c.COOKIEFILE, cookiefile)
+    c.setopt(c.COOKIEJAR, cookiefile)
     buf = cStringIO.StringIO()
+    headers_buf = cStringIO.StringIO()
 
-    # download log from last day
-    c.setopt(c.URL, 'https://ochrona.juwentus.pl/sources/sygnaly_on_line_rap.php?wyswietl=1&okr=1&idobiektu=%s' % settings['JUWENTUS_OBJECT_ID'])
-    c.setopt(c.WRITEFUNCTION, buf.write)
-    c.perform()
+    if not os.path.isfile(cookiefile):
+        login()
 
-    result = buf.getvalue()
+    log, headers = get_log()
+    if headers.splitlines()[0] == 'HTTP/1.1 302 Found':
+        login()
+        headers, log = get_log()
+
     buf.close()
+    headers_buf.close()
 
-    return result
+    return log
 
 
 def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
