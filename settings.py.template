@@ -26,13 +26,12 @@ default = {
     'IGNORE_USERS': (-1),  # ids of users to ignore
     'IGNORE_ZAL_ZONES': (-1,)  # some zones are enabled with delay, but there is no need to send the sms about that
 
+    'SENDERS': ('screen', 'sms-api',),
+
     'SMSAPI_LOGIN': '',
     'SMSAPI_PASS': '',
     'SMSAPI_PRO_FROM': 'Alert', # registered from name for "Pro" messages
     'SMSAPI_PRO': True, # to use Pro or not?
-
-    'DEBUG': True,
-
 
     'PHONE_NUMBERS': ('',),  # tuple of strings
 }
