@@ -33,5 +33,7 @@ default = {
     'SMSAPI_PRO_FROM': 'Alert', # registered from name for "Pro" messages
     'SMSAPI_PRO': True, # to use Pro or not?
 
+    'FILE_SAVE': 'parse.log', # file to save (use with "file" sender)
+
     'PHONE_NUMBERS': ('',),  # tuple of strings
 }

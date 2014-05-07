@@ -5,4 +5,5 @@ cookies.txt
 *.pyc
 settings.py
 example.html
+parse.log
 .idea
