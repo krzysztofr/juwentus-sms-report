@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from juwparser import parse, get_last_time
+from juwparser import parse, get_last_time, timestampize
 
 from test_settings import test_ignore_user3 as settings_ignore_user3
 from test_settings import test_ignore_zal as settings_ignore_zal
@@ -77,3 +77,11 @@ class JuwparserTestCase(unittest.TestCase):
         parsed = parse(html=self.testdata1, last_time=datetime.datetime.strptime(self.last_time, '%Y-%m-%d %H:%M:%S'), last_time_filename=self.lt_filename, settings=settings_ignore_zal_garaz)
 
         self.assertNotIn("garaz", parsed, "Zone 'garaz' in the results, where it shouldn't be.")
+
+    def test_timestampize(self):
+
+        text = "line1\nline2\nline3"
+
+        text_timestamped = timestampize(text)
+
+        self.assertRegexpMatches(text_timestamped, '\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line1\n\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line2\n\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line3', 'Timestampize returns result in wrong format. No timestamps?')
