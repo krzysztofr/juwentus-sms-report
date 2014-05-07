@@ -2,6 +2,7 @@
 
 from bs4 import BeautifulSoup
 
+from time import strftime
 import datetime
 import pycurl
 import cStringIO
@@ -179,3 +180,7 @@ def parse(html, last_time, settings, last_time_filename='lasttime.txt'):
         message_text += "NAPAD!"
 
     return message_text
+
+
+def timestampize(text):
+    return "\n".join(("[%s] " % strftime("%Y-%m-%d %H:%M:%S") + s for s in text.split("\n")))
