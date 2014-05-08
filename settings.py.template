@@ -31,7 +31,14 @@ default = {
     'SMSAPI_LOGIN': '',
     'SMSAPI_PASS': '',
     'SMSAPI_PRO_FROM': 'Alert', # registered from name for "Pro" messages
-    'SMSAPI_PRO': True, # to use Pro or not?
+    'SMSAPI_PRO': True, # to use Pro or not?,
+
+    'EMAIL_SMTP_HOST': 'smtp.example.com',
+    'EMAIL_SMTP_USER': 'example',
+    'EMAIL_SMTP_PASS': 'pass',
+    'EMAIL_SUBJECT': 'Alarm message',
+    'EMAIL_FROM': 'john@example.com',
+    'EMAIL_TO': 'john@example.com',
 
     'FILE_SAVE': 'parse.log', # file to save (use with "file" sender)
 
