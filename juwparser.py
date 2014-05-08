@@ -62,7 +62,7 @@ def get_log(settings):
     log, headers = get_log()
     if headers.splitlines()[0] == 'HTTP/1.1 302 Found':
         login()
-        headers, log = get_log()
+        log, headers = get_log()
 
     buf.close()
     headers_buf.close()
