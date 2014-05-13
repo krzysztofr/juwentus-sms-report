@@ -3,3 +3,4 @@ beautifulsoup4==4.3.2
 iconv==1.0
 pycurl==7.19.3
 -e git+https://github.com/smsapi/smsapi-python-client@34c978a08dba45e5e548da2cb32229765a67855b#egg=smsapi-master
+mock==1.0.1

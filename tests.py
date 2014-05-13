@@ -11,6 +11,7 @@ import unittest
 import os
 import datetime
 
+import mock
 
 class JuwparserTestCase(unittest.TestCase):
 
@@ -78,10 +79,13 @@ class JuwparserTestCase(unittest.TestCase):
 
         self.assertNotIn("garaz", parsed, "Zone 'garaz' in the results, where it shouldn't be.")
 
-    def test_timestampize(self):
+    @mock.patch('juwparser.strftime')
+    def test_timestampize(self, mock_strftime):
 
         text = "line1\nline2\nline3"
 
+        mock_strftime.return_value = '2014-05-13 21:00:00'
+
         text_timestamped = timestampize(text)
 
-        self.assertRegexpMatches(text_timestamped, '\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line1\n\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line2\n\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] line3', 'Timestampize returns result in wrong format. No timestamps?')
+        self.assertEqual(text_timestamped, '[2014-05-13 21:00:00] line1\n[2014-05-13 21:00:00] line2\n[2014-05-13 21:00:00] line3', 'Timestampize returns result in wrong format. No timestamps?')
