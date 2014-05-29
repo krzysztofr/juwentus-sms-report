@@ -13,6 +13,7 @@ import datetime
 
 import mock
 
+
 class JuwparserTestCase(unittest.TestCase):
 
     lt_filename = "lasttime_test.txt"
