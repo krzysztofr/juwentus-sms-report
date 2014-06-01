@@ -67,7 +67,12 @@ test_default = {
     'USERS': users,
     'IGNORE_ACTIONS': (),
     'IGNORE_USERS': (),
-    'IGNORE_ZAL_ZONES': ()
+    'IGNORE_ZAL_ZONES': (),
+    'SMSAPI_LOGIN': 'nobody@example.com',
+    'SMSAPI_PASS': 'secret_password',
+    'SMSAPI_PRO_FROM': 'Alert',  # registered from name for "Pro" messages
+    'SMSAPI_PRO': True,  # to use Pro or not?,
+    'PHONE_NUMBERS': ('123456789', '987654321'),
 }
 
 test_ignore_user3 = {

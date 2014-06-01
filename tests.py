@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from juwparser import parse, get_last_time, timestampize
+from senders import sms_api
 
 from test_settings import test_ignore_user3 as settings_ignore_user3
 from test_settings import test_ignore_zal as settings_ignore_zal
@@ -90,3 +91,24 @@ class JuwparserTestCase(unittest.TestCase):
         text_timestamped = timestampize(text)
 
         self.assertEqual(text_timestamped, '[2014-05-13 21:00:00] line1\n[2014-05-13 21:00:00] line2\n[2014-05-13 21:00:00] line3', 'Timestampize returns result in wrong format. No timestamps?')
+
+    @mock.patch('senders.sms_api.SmsAPI')
+    def test_sender_sms_api(self, mock_smsapi):
+        smsapi_instance = mock_smsapi.return_value
+
+        test_message = 'This is test message.'
+
+        sms_api.send(message=test_message, settings=settings_default)
+
+        smsapi_instance.set_username.assert_called_with(settings_default['SMSAPI_LOGIN'])
+        smsapi_instance.set_password.assert_called_with(settings_default['SMSAPI_PASS'])
+        if settings_default['SMSAPI_PRO']:
+            smsapi_instance.set_from.assert_called_with(settings_default['SMSAPI_PRO_FROM'])
+        else:
+            smsapi_instance.set_eco.assert_called_with(True)
+        smsapi_instance.set_content.assert_called_with(test_message)
+        for number in settings_default['PHONE_NUMBERS']:
+            smsapi_instance.set_to.assert_any_call(number)
+        self.assertEqual(smsapi_instance.execute.call_count, len(settings_default['PHONE_NUMBERS']))
+
+
