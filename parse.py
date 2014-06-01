@@ -15,8 +15,11 @@ def main():
     if message_text != '':
         sendermod = {}
         for sender in settings['SENDERS']:
-            sendermod[sender] = import_module('senders.%s' % sender)
-            sendermod[sender].send(message=message_text, settings=settings)
+            try:
+                sendermod[sender] = import_module('senders.%s' % sender)
+                sendermod[sender].send(message=message_text, settings=settings)
+            except ImportError:
+                print 'No such sender: %s' % sender
 
 if __name__ == "__main__":
     main()
