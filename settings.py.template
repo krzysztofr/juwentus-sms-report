@@ -26,7 +26,7 @@ default = {
     'IGNORE_USERS': (-1),  # ids of users to ignore
     'IGNORE_ZAL_ZONES': (-1,)  # some zones are enabled with delay, but there is no need to send the sms about that
 
-    'SENDERS': ('screen', 'sms-api',),
+    'SENDERS': ('screen', 'sms_api', 'e_mail', 'file'),
 
     'SMSAPI_LOGIN': '',
     'SMSAPI_PASS': '',
