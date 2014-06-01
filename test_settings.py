@@ -73,6 +73,12 @@ test_default = {
     'SMSAPI_PRO_FROM': 'Alert',  # registered from name for "Pro" messages
     'SMSAPI_PRO': True,  # to use Pro or not?,
     'PHONE_NUMBERS': ('123456789', '987654321'),
+    'EMAIL_SMTP_HOST': 'smtp.example.com',
+    'EMAIL_SMTP_USER': 'example_user',
+    'EMAIL_SMTP_PASS': 'secret_password',
+    'EMAIL_SUBJECT': 'Test Subject.',
+    'EMAIL_FROM': 'nobody@example.com',
+    'EMAIL_TO': 'nobody@example.com',
 }
 
 test_ignore_user3 = {
