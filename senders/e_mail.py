@@ -9,10 +9,11 @@ def send(message, settings):
     s = smtplib.SMTP(settings['EMAIL_SMTP_HOST'])
     s.login(settings['EMAIL_SMTP_USER'], settings['EMAIL_SMTP_PASS'])
 
-    msg = MIMEText(message)
-    msg['Subject'] = settings['EMAIL_SUBJECT']
-    msg['From'] = settings['EMAIL_FROM']
-    msg['To'] = settings['EMAIL_TO']
-    s.sendmail(settings['EMAIL_FROM'], [settings['EMAIL_TO']], msg.as_string())
+    for to in settings['EMAILS_TO']:
+        msg = MIMEText(message)
+        msg['Subject'] = settings['EMAIL_SUBJECT']
+        msg['From'] = settings['EMAIL_FROM']
+        msg['To'] = to
+        s.sendmail(settings['EMAIL_FROM'], [to], msg.as_string())
 
     s.quit()

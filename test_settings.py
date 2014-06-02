@@ -78,7 +78,7 @@ test_default = {
     'EMAIL_SMTP_PASS': 'secret_password',
     'EMAIL_SUBJECT': 'Test Subject.',
     'EMAIL_FROM': 'nobody@example.com',
-    'EMAIL_TO': 'nobody@example.com',
+    'EMAILS_TO': ('nobody@example.com', 'nobody2@example.com'),
 }
 
 test_ignore_user3 = {

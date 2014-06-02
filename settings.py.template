@@ -38,7 +38,7 @@ default = {
     'EMAIL_SMTP_PASS': 'pass',
     'EMAIL_SUBJECT': 'Alarm message',
     'EMAIL_FROM': 'john@example.com',
-    'EMAIL_TO': 'john@example.com',
+    'EMAILS_TO': ('john@example.com', 'annie@example.com'),
 
     'FILE_SAVE': 'parse.log', # file to save (use with "file" sender)
 

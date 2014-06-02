@@ -116,10 +116,6 @@ class JuwparserTestCase(unittest.TestCase):
     def test_sender_email(self, mock_smtp):
 
         test_message = 'This is a test message.'
-        msg = MIMEText(test_message)
-        msg['Subject'] = settings_default['EMAIL_SUBJECT']
-        msg['From'] = settings_default['EMAIL_FROM']
-        msg['To'] = settings_default['EMAIL_TO']
 
         e_mail.send(message=test_message, settings=settings_default)
 
@@ -128,5 +124,14 @@ class JuwparserTestCase(unittest.TestCase):
         smtp_instance = mock_smtp.return_value
 
         smtp_instance.login.assert_called_with(settings_default['EMAIL_SMTP_USER'], settings_default['EMAIL_SMTP_PASS'])
-        smtp_instance.sendmail.assert_called_with(settings_default['EMAIL_FROM'], [settings_default['EMAIL_TO']], msg.as_string())
+
+        for to in settings_default['EMAILS_TO']:
+            msg = MIMEText(test_message)
+            msg['Subject'] = settings_default['EMAIL_SUBJECT']
+            msg['From'] = settings_default['EMAIL_FROM']
+            msg['To'] = to
+
+            smtp_instance.sendmail.assert_any_call(settings_default['EMAIL_FROM'], [to], msg.as_string())
+
+        self.assertEqual(smtp_instance.sendmail.call_count, len(settings_default['EMAILS_TO']))
         self.assertEqual(smtp_instance.quit.call_count, 1)
