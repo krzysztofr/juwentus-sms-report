@@ -6,10 +6,15 @@ from settings import default as settings
 from juwparser import parse, get_log, get_last_time
 
 from importlib import import_module
+import argparse
 
 
-def main():
+argparser = argparse.ArgumentParser(description="juwparser - parsing Juwentus logs")
+argparser.add_argument('action', action='store', help="action (parse, getlog)", choices=('parse', 'getlog'))
 
+action = argparser.parse_args().action
+
+if action == 'parse':
     message_text = parse(html=get_log(settings=settings), last_time=get_last_time(), settings=settings)
 
     if message_text != '':
@@ -20,6 +25,5 @@ def main():
                 sendermod[sender].send(message=message_text, settings=settings)
             except ImportError:
                 print 'No such sender: %s' % sender
-
-if __name__ == "__main__":
-    main()
+elif action == 'getlog':
+    print get_log(settings=settings)
