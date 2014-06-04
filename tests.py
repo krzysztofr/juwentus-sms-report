@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from juwparser import parse, get_last_time, timestampize
-from senders import sms_api, e_mail
+from senders import e_mail, file as s_file, sms_api
 
 from test_settings import test_ignore_user3 as settings_ignore_user3
 from test_settings import test_ignore_zal as settings_ignore_zal
@@ -135,3 +135,17 @@ class JuwparserTestCase(unittest.TestCase):
 
         self.assertEqual(smtp_instance.sendmail.call_count, len(settings_default['EMAILS_TO']))
         self.assertEqual(smtp_instance.quit.call_count, 1)
+
+    @mock.patch('juwparser.strftime')
+    def test_sender_file(self, mock_strftime):
+        mo = mock.mock_open()
+        test_message = 'This is a test message.'
+
+        mock_strftime.return_value = '2014-05-13 21:00:00'
+
+        with mock.patch('senders.file.open', mo, create=True):
+            s_file.send(message=test_message, settings=settings_default)
+            mo.assert_called_once_with(settings_default['FILE_SAVE'], 'a')
+            mo().write.assert_any_call(timestampize(test_message))
+            mo().write.assert_any_call("\n")
+

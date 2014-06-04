@@ -79,6 +79,7 @@ test_default = {
     'EMAIL_SUBJECT': 'Test Subject.',
     'EMAIL_FROM': 'nobody@example.com',
     'EMAILS_TO': ('nobody@example.com', 'nobody2@example.com'),
+    'FILE_SAVE': 'test_parse.log',
 }
 
 test_ignore_user3 = {
